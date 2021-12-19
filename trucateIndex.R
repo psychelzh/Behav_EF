@@ -113,21 +113,6 @@ write_csv(spatialWM_filtered, file.path(filt_dir, paste0(taskname, filt_suffix, 
 taskname <- "StopSignal"
 stopSignal <- read_csv(file.path(data_dir, paste0(taskname, data_suffix, file_ext)))
 stopSignal_filtered <- stopSignal |>
-  gather(type, value, MSSD1:SSSD4) |>
-  separate(type, c("var", "ssd_cat"), -1) |>
-  spread(var, value) |>
-  # remove nonpositive MSSD
-  filter(SSSD != 0) |>
-  group_by(ssd_cat) |>
-  # remove MSSD outlier
-  mutate(MSSD = ifelse(MSSD %in% robustbase::adjboxStats(MSSD)$out, NA, MSSD)) |>
-  group_by_at(vars(id:PE_Stop)) |>
-  summarise(
-    SSSD = sd(MSSD, na.rm = TRUE),
-    MSSD = mean(MSSD, na.rm = TRUE)
-  ) |>
-  ungroup() |>
-  mutate(SSRT = MRT_Go - MSSD) |>
   filter(
     # remove subjects without enough responses
     NResp > rate * NTrial,
