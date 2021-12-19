@@ -24,8 +24,8 @@ function [stats, labels] = stopSignal(RT, ACC, IsStop, SSD, SSDCat)
 
 % calculate percentile rt based on https://elifesciences.org/articles/46323
 p_resp_signal = mean(ACC(IsStop == 1) == 0);
+RT(ACC == -1) = 1000; % use maximal rt for no response trials
 RT_go = RT(~IsStop);
-RT_go(ACC == -1) = 1000; % use maximal rt for no response trials
 rt_nth = quantile(RT_go, p_resp_signal);
 
 % record trial information
@@ -52,8 +52,8 @@ MSSDMat = arrayfun(@(ssdcat) mean( ...
     [findpeaks(SSD(IsStop == 1 & SSDCat == ssdcat)); ...
     -findpeaks(-SSD(IsStop == 1 & SSDCat == ssdcat))]), ...
     ssdcats);
-SSSD = std(MSSDMat, 'omitnan');
-MSSD = mean(MSSDMat, 'omitnan');
+SSSD = std(MSSDMat(ssdnormal ~= 0), 'omitnan');
+MSSD = mean(MSSDMat(ssdnormal ~= 0), 'omitnan');
 SSRT = rt_nth - MSSD;
 
 stats = [SSRT, rt_nth, MSSD, NTrial, NResp, NInclude, MRT_Go, MRT_Stop, PE_Go, PE_Stop, SSSD, MSSDMat, ssdnormal];
