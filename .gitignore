@@ -1,0 +1,11 @@
+!cfa
+cfa/data
+cfa/image
+cfa/result
+# files
+*.html
+.Rproj.user
+.Rhistory
+.Rdata
+.httr-oauth
+.DS_Store
