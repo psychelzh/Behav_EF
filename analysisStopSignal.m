@@ -20,10 +20,7 @@ results = [gid, array2table(stats, 'VariableNames', labels(1, :))];
 writetable(results, fullfile(RESFOLDER, 'StopSignalResult.csv'))
 
 function [stats, labels] = stopSignal(RT, ACC, IsStop, SSD, SSDCat)
-%SNGPROCBART Does some basic data transformation to BART task.
-
 % By Zhang, Liang. 04/13/2016. E-mail:psychelzh@gmail.com
-
 
 % calculate percentile rt based on https://elifesciences.org/articles/46323
 p_resp_signal = mean(ACC(IsStop == 1) == 0);
