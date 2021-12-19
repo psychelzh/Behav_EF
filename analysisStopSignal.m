@@ -26,7 +26,7 @@ function [stats, labels] = stopSignal(RT, ACC, IsStop, SSD, SSDCat)
 p_resp_signal = mean(ACC(IsStop == 1) == 0);
 RT_go = RT(~IsStop);
 RT_go(ACC == -1) = 1000; % use maximal rt for no response trials
-rt_nth = quantile(RT_go, 1 - p_resp_signal);
+rt_nth = quantile(RT_go, p_resp_signal);
 
 % record trial information
 NTrial = length(RT);
