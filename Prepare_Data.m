@@ -293,7 +293,7 @@ for ifile = 1:length(spatialfiles)
     subcfg.subs = {[1, 2]};
     rmRows = arrayfun(@(block) subsref(find(rec(:, 2) == block), subcfg), blocks, 'UniformOutput', false);
     rmRows = cat(1, rmRows{:});
-    rec(rmRows, :) = []; %#ok<SAGROW>
+    rec(rmRows, :) = [];
     % get number the trials and recorded variables
     [ntrial, nvar] = size(rec);
     % check whether the data is correctly recorded
