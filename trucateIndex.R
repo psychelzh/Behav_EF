@@ -32,7 +32,7 @@ rate <- 0.8
 data_suffix <- "Result"
 filt_suffix <- "Filtered"
 file_ext <- ".csv"
-indices <- read_csv(file.path(filt_dir, "index_map.csv"))
+indices <- read_csv(file.path("config", "index_map.csv"))
 index_map <- setNames(indices$index, indices$Taskname)
 
 # AntiSac ----
