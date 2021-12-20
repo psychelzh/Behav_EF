@@ -8,14 +8,11 @@ PE_keep_idx <- function(PE, N, p = 0.5){
   sigma <- sqrt(p * (1 - p) / N)
   PE < 1 - (mu + qnorm(0.95) * sigma)
 }
-rm_dup_id <- function(tbl, var_crit, fun = min){
-  var_crit <- enquo(var_crit)
-  tbl %>%
-    group_by(id) %>%
-    mutate(ranking = row_number(!!var_crit)) %>%
-    filter(ranking == fun(ranking)) %>%
-    ungroup() %>%
-    select(-ranking)
+rm_dup_id <- function(tbl, var_crit){
+  tbl |>
+    group_by(id) |>
+    filter(row_number({{ var_crit }}) == 1) |>
+    ungroup()
 }
 
 # set some configurations ----
