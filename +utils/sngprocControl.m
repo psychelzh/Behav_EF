@@ -16,13 +16,13 @@ RT(ACC == -1) = NaN;
 % remove RT outlier for each condition
 for igrp = 1:length(gid)
     curGroupIdx = grps == igrp;
-    RT(curGroupIdx) = rmoutlier(RT(curGroupIdx));
+    RT(curGroupIdx) = utils.rmoutlier(RT(curGroupIdx));
 end
 % calculate statistics for the whole task
-[total_stats, total_labels] = SAT(RT, ACC);
+[total_stats, total_labels] = utils.SAT(RT, ACC);
 lisas_weight = total_stats(ismember(total_labels, 'lisas_weight'));
 % calculate statistics for each condition
-[cond_stats, cond_labels] = splitapply(@(x, y) SAT(x, y, lisas_weight), ...
+[cond_stats, cond_labels] = splitapply(@(x, y) utils.SAT(x, y, lisas_weight), ...
     RT, ACC, grps);
 diff_stats = cond_stats(2, :) - cond_stats(1, :);
 diff_labels = strcat(cond_labels(1, :), '_diff');

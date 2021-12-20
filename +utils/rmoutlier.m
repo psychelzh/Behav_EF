@@ -22,7 +22,7 @@ for method = methods
     paras = [{'Method'}, method, ...
         {'Boundary', cutoffs, 'SDLimit', sdlimits, ...
         'Number', percent, 'Coefficient', coef}];
-    raw(outlier(raw, paras{:})) = NaN;
+    raw(utils.outlier(raw, paras{:})) = NaN;
 end
 
 clean = raw;

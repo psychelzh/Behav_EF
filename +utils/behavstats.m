@@ -7,8 +7,8 @@ NResp = sum(ACC ~= -1);
 % set ACC of outlier and -1 trials as NaN (not included)
 ACC(isnan(RT) | ACC == -1) = NaN;
 NInclude = sum(~isnan(ACC));
-PE = 1 - nanmean(ACC);
-SPE = nanstd(ACC);
+PE = 1 - mean(ACC, 'omitnan');
+SPE = std(ACC, 'omitnan');
 MRT = mean(RT(ACC == 1));
 SRT = std(RT(ACC == 1));
 
