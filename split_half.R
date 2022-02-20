@@ -41,3 +41,7 @@ expand_grid(
     split_half = 2 * r_split_half / (1 + r_split_half)
   ) |>
   writexl::write_xlsx("results/reliability.xlsx")
+alpha_stopsignal <- readr::read_csv("EFRes/StopSignalResult.csv") |>
+  drop_na() |>
+  select(matches("SSRT\\d")) |>
+  psych::alpha()

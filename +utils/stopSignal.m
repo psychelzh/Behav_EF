@@ -34,7 +34,16 @@ MSSDMat = arrayfun(@(ssdcat) mean( ...
 SSSD = std(MSSDMat(ssdnormal ~= 0), 'omitnan');
 MSSD = mean(MSSDMat(ssdnormal ~= 0), 'omitnan');
 SSRT = rt_nth - MSSD;
+% ssrt for each staircase
+p_resp_signal_each = arrayfun(@(ssdcat) ...
+    mean(ACC(IsStop == 1 & SSDCat == ssdcat) == 0), ...
+    ssdcats);
+rt_nth_each = arrayfun(@(p_resp_signal) ...
+    quantile(RT_go, p_resp_signal), ...
+    p_resp_signal_each);
+SSRT_mat = rt_nth_each - MSSDMat;
+SSRT_mat(ssdnormal == 0) = nan;
 
-stats = [SSRT, rt_nth, MSSD, NTrial, NResp, NInclude, MRT_Go, MRT_Stop, PE_Go, PE_Stop, SSSD, MSSDMat, ssdnormal];
-labels = {'SSRT', 'rt_nth', 'MSSD', 'NTrial', 'NResp', 'NInclude', 'MRT_Go', 'MRT_Stop', 'PE_Go', 'PE_Stop', 'SSSD', 'MSSD1', 'MSSD2', 'MSSD3', 'MSSD4', 'SSSD1', 'SSSD2', 'SSSD3', 'SSSD4'};
+stats = [SSRT, SSRT_mat, rt_nth, MSSD, NTrial, NResp, NInclude, MRT_Go, MRT_Stop, PE_Go, PE_Stop, SSSD, MSSDMat, ssdnormal];
+labels = {'SSRT', 'SSRT1', 'SSRT2', 'SSRT3', 'SSRT4', 'rt_nth', 'MSSD', 'NTrial', 'NResp', 'NInclude', 'MRT_Go', 'MRT_Stop', 'PE_Go', 'PE_Stop', 'SSSD', 'MSSD1', 'MSSD2', 'MSSD3', 'MSSD4', 'SSSD1', 'SSSD2', 'SSSD3', 'SSSD4'};
 end
