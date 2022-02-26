@@ -397,6 +397,8 @@ data.ACC(data.IsStop == 0 & data.Resp == 0) = -1;
 data.RT = data.RT * 1000;
 results = preproc(data, @stopSignal, Keys = KEYMETAVAR, Vars = ANADATAVAR);
 writetable(results, fullfile(RESFOLDER, 'StopSignalResult.csv'))
+results_block = preproc(data, @stopSignal, Keys=horzcat(KEYMETAVAR, 'iBlock'), Vars=ANADATAVAR);
+writetable(results_block, fullfile(RESFOLDER, 'StopSignalResultBlocks.csv'))
 
 %% Stroop
 % merge data
