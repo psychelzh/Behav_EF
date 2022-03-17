@@ -41,7 +41,30 @@ expand_grid(
     split_half = 2 * r_split_half / (1 + r_split_half)
   ) |>
   writexl::write_xlsx("results/reliability.xlsx")
-alpha_stopsignal <- readr::read_csv("EFRes/StopSignalResult.csv") |>
+subjects <- readr::read_lines(
+  "config/2110sublist_EAS_noGRM0.05_withAgeSex.txt"
+) |>
+  readr::parse_double()
+splithalf_stopsignal <- readr::read_csv(
+  "EFRes/StopSignalResultBlocks.csv"
+) |>
+  filter(iBlock %in% c(3, 4), id %in% subjects) |>
   drop_na() |>
-  select(matches("SSRT\\d")) |>
-  psych::alpha()
+  pivot_wider(
+    id_cols = c(id, time),
+    names_from = iBlock,
+    values_from = SSRT
+  ) |>
+  drop_na() |>
+  summarise(
+    r = cor(`3`, `4`),
+    reliability = 2 * r / (1 + r)
+  )
+readr::read_csv("KeepTrack/keepTrack_4scores_v1.csv") |>
+  select(-ID) |>
+  psych::alpha() |>
+  summary()
+readr::read_csv("KeepTrack/keepTrack_4scores_v2.csv") |>
+  select(-ID) |>
+  psych::alpha() |>
+  summary()
